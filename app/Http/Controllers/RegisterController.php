@@ -17,11 +17,12 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-        $attributes = $request->validate([
+        $attributes = array_merge($request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|min:8|max:255'
-        ]);
+            'password' => 'required|min:8|max:255',
+            'picture' => 'required|image'
+        ]), ['picture' => $request->file('picture')->store('uploads')]);
 
         if($request->input('role') === 'passenger') {
 
@@ -32,28 +33,31 @@ class RegisterController extends Controller
             $user = User::create($attributes);
 
             $passenger = new Passenger;
-            $passenger->phone = $request->input('input');
+            $passenger->phone = $request->input('phone');
             $passenger->user_id = $user->id;
             $passenger->save();
 
         } elseif ($request->input('role') === 'driver') {
 
-            $driverAttributes = $request->validate([
+            $user = User::create($attributes);
+
+            $request->validate([
                 'description' => 'required|max:255',
                 'registration' => 'required|max:255',
                 'typeVehicle' => 'required|max:255',
                 'typePayment' => 'required|max:255',
             ]);
 
-            $user = User::create($attributes);
-
-            $driverAttributes = array_merge($driverAttributes, [
-                'user_id' => $user->id
-            ]);
-
-            Driver::create($driverAttributes);
+            $driver = new Driver;
+            $driver->description = $request->input('description');
+            $driver->registration = $request->input('registration');
+            $driver->typeVehicle = $request->input('typeVehicle');
+            $driver->typePayment = $request->input('typePayment');
+            $driver->user_id = $user->id;
+            $driver->save();
 
         }
+        return redirect('/login');
     }
 
 }

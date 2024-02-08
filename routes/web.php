@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\PassengerController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Route::get('/passenger', [PassengerController::class, 'store']);
+Route::get('/register', [RegisterController::class, 'create'])->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
+
+Route::get('/login', [SessionController::class, 'create'])->middleware('guest')->name('login');
+Route::post('/login', [SessionController::class, 'store'])->middleware('guest');
+
+Route::get('/logout', [SessionController::class, 'destroy'])->middleware('auth');
+
+Route::get('/admin', [AdminController::class], 'index')->middleware('can:admin');
+Route::get('/passenger', [PassengerController::class], 'index')->middleware('can:passenger');
+Route::get('/driver', [DriverController::class], 'index')->middleware('can:driver');
