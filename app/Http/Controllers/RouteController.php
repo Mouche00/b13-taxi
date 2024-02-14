@@ -9,7 +9,7 @@ class RouteController extends Controller
 {
     public function store(Request $request){
 
-        dd($request);
+        // dd($request);
 
         $attributes = $request->validate([
             'departure' => 'required',
