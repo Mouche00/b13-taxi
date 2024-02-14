@@ -29,13 +29,18 @@ class SessionController extends Controller
         session()->regenerate();
 
         if (sizeof(Passenger::where('user_id', auth()->id())->get()) > 0){
-            return redirect('/passenger');
+            auth()->user()->role = 'passenger';
+            return redirect('/passenger/dashboard');
 //            dd(Passenger::where('user_id', auth()->id()));
         } elseif (sizeof(Driver::where('user_id', auth()->id())->get()) > 0){
-            return redirect('/driver');
+            auth()->user()->role = 'driver';
+            return redirect('/driver/dashboard');
         } elseif (sizeof(Admin::where('user_id', auth()->id())->get()) > 0) {
-            return redirect('/admin');
+            auth()->user()->role = 'admin';
+            return redirect('/admin/dashboard');
         }
+
+//        return redirect('/dashboard')->with('success', 'You have successfully logged in');
     }
 
     public function destroy(){

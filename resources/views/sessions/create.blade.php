@@ -1,5 +1,5 @@
 <x-layout class="bg-[url('{{ asset('/images/back.jpg') }}')] bg-no-repeat bg-cover">
-    <div class="w-full h-full flex justify-center items-center bg-amber-600/30 backdrop-brightness-75">
+    <div class="w-full h-full flex justify-center items-center bg-black-600/30 backdrop-brightness-75">
         <div class="bg-white p-16 flex justify-center items-center rounded-lg">
             <form action="/login" method="POST" class="flex flex-col justify-between">
                 @csrf

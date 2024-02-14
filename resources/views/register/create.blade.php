@@ -1,5 +1,5 @@
 <x-layout class="bg-[url('{{ asset('/images/back.jpg') }}')] bg-no-repeat bg-cover">
-    <div class="w-full h-full flex justify-center items-center bg-amber-600/30 backdrop-brightness-75">
+    <div class="w-full h-full flex justify-center items-center bg-black-600/30 backdrop-brightness-75">
         <button type="button" id="register-switch" class="bg-black px-16 py-8 text-white rotate-[-90deg] rounded-lg">Sign in as Driver</button>
         <div class="bg-white p-16 flex justify-center items-center rounded-lg">
             <form action="/register" method="POST" id="passenger-form" class="flex flex-col justify-between" enctype="multipart/form-data">

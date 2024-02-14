@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Traits\OneToOneTrait;
+use App\Models\Traits\BelongsToTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Passenger extends User
 {
     use HasFactory;
-    use OneToOneTrait;
+    use BelongsToTrait;
 
     protected $guarded = [];
 }

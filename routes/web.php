@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\RouteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [GuestController::class, 'index']);
 
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
@@ -27,6 +29,10 @@ Route::post('/login', [SessionController::class, 'store'])->middleware('guest');
 
 Route::get('/logout', [SessionController::class, 'destroy'])->middleware('auth');
 
-Route::get('/admin', [AdminController::class], 'index')->middleware('can:admin');
-Route::get('/passenger', [PassengerController::class], 'index')->middleware('can:passenger');
-Route::get('/driver', [DriverController::class], 'index')->middleware('can:driver');
+Route::get('/driver/dashboard', [DriverController::class, 'index'])->middleware('can:driver');
+Route::get('/passenger/dashboard', [PassengerController::class, 'index'])->middleware('can:passenger');
+
+Route::post('route/add', [RouteController::class, 'store'])->middleware('can:driver');
+
+//Route::get('/admin', [AdminController::class], 'index')->middleware('can:admin');
+//Route::get('/driver', [DriverController::class], 'index')->middleware('can:driver');

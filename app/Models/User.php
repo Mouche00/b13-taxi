@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Passenger;
+use App\Models\Driver;
+use App\Models\Admin;
 
 class User extends Authenticatable
 {
@@ -46,8 +49,28 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $appends = [
+        'role'
+    ];
+
+    public function setRoleAttribute($role){
+        return $this->role = $role;
+    }
+
     public function setPasswordAttribute($password){
         return $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function passenger() {
+        return $this->hasOne(Passenger::class);
+    }
+
+    public function driver() {
+        return $this->hasOne(Driver::class);
+    }
+
+    public function admin() {
+        return $this->hasOne(Admin::class);
     }
 
 }
