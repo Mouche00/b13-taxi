@@ -12,4 +12,5 @@ class Passenger extends User
     use BelongsToTrait;
 
     protected $guarded = [];
+
 }

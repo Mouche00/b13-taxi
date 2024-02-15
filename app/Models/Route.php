@@ -15,4 +15,12 @@ class Route extends Model
     public function driver() {
         return $this->belongsTo(Driver::class);
     }
+
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['departure'] ?? false, fn($query, $departure) =>
+            $query->when($filters['destination'] ?? false, fn($query, $destination) =>
+                $query->where('departure', $departure)->where('destination', $destination)
+            )
+        );
+    }
 }

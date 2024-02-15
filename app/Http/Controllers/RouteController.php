@@ -16,11 +16,23 @@ class RouteController extends Controller
             'destination' => 'required'
         ]);
 
-        $attributes = array_merge($attributes, [
-            'driver_id' => auth()->user()->driver()->get()[0]->id
-        ]);
+        $route = Route::where('departure', $attributes['departure'])->where('destination', $attributes['destination'])->first();
 
-        Route::create($attributes);
+        if($route === null) {
+            $attributes = array_merge($attributes, [
+                'driver_id' => auth()->user()->driver()->get()[0]->id
+            ]);
+    
+            Route::create($attributes);
+        } else {
+            $route = Route::find($route->id);
+
+            $route->created_at = now();
+
+            $route->save();
+        }
+
+        
 
         return redirect('driver/dashboard')->with('success', 'Current route changed successfully');
     }
