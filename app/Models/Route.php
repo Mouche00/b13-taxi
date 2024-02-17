@@ -12,8 +12,12 @@ class Route extends Model
 
     protected $guarded = [];
 
-    public function driver() {
-        return $this->belongsTo(Driver::class);
+    public function drivers() {
+        return $this->belongsToMany(Driver::class)->using(DriverRoute::class)->withTimestamps();
+    }
+
+    public function reservation() {
+        return $this->hasOne(Reservation::class);
     }
 
     public function scopeFilter($query, array $filters){

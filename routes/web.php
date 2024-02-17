@@ -4,6 +4,7 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\RouteController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,7 @@ Route::get('/driver/dashboard', [DriverController::class, 'index'])->middleware(
 Route::get('/passenger/dashboard', [PassengerController::class, 'index'])->middleware('can:passenger');
 
 Route::post('route/add', [RouteController::class, 'store'])->middleware('can:driver');
+Route::post('/reservation/add', [ReservationController::class, 'store'])->middleware('can:passenger');
 
 //Route::get('/admin', [AdminController::class], 'index')->middleware('can:admin');
 //Route::get('/driver', [DriverController::class], 'index')->middleware('can:driver');

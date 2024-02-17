@@ -25,7 +25,11 @@
                     <x-form.input name="description" required />
                     <x-form.input name="registration" required />
                     <x-form.input name="typeVehicle" required />
-                    <x-form.input name="typePayment" required />
+                    
+                    <select name="typePayment" id="typePayment">
+                        <option value="cash">Cash</option>
+                        <option value="credit">Credit</option>
+                    </select>
                 </div>
 
                 <x-form.button>SIGN UP</x-form.button>
