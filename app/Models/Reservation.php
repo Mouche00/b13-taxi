@@ -12,10 +12,14 @@ class Reservation extends Model
     protected $guarded = [];
 
     public function route() {
-        return $this->belongsTo(DriverRoute::class);
+        return $this->belongsTo(DriverRoute::class, 'route_id', 'id');
     }
 
     public function passenger() {
         return $this->belongsTo(Passenger::class);
+    }
+
+    public function review() {
+        return $this->hasOne(Review::class);
     }
 }

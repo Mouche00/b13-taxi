@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('route_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('driver_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->dateTime('date')->nullable();
             $table->enum('selected', ['1', '0'])->default('0');
             $table->timestamps();
         });

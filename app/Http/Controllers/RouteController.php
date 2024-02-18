@@ -17,6 +17,10 @@ class RouteController extends Controller
             'destination' => 'required'
         ]);
 
+        $date = $request->validate([
+            'date' => 'required|date|before:' . now()->addMonth()->toDateTimeString() . '|after:' . now()->toDateTimeString()
+        ]);
+
         $route = Route::where('departure', $attributes['departure'])->where('destination', $attributes['destination'])->first();
         $id = auth()->user()->driver()->first()->id;
         $driver = Driver::find($id);
@@ -35,10 +39,10 @@ class RouteController extends Controller
 
         if($driver->routes()->find($route->id)){
 
-            $route->drivers()->updateExistingPivot($id, ['selected' => 1]);
+            $route->drivers()->updateExistingPivot($id, ['selected' => 1, 'date' => $request->input('date')]);
         }else{
 
-            $route->drivers()->attach($id, ['selected' => 1]);
+            $route->drivers()->attach($id, ['selected' => 1, 'date' => $request->input('date')]);
         }
 
         

@@ -4,11 +4,13 @@
             <x-dashboard.sidebar role="driver" />
 
             <main class="relative flex w-full">
-                <div class="pb-8 pr-12">
+                <div class="pb-8 pr-12 w-[65%]">
                     <div class="bg-white border-black border-4 border-dashed rounded-xl font-black text-xl">
                         <h1 class="font-black text-white text-xl bg-black p-4 text-center">Selected Route</h1>
                         <form action="/route/add" method="POST" class="p-4 pt-8 relative">
-                            @csrf
+                            @if(auth()->user()->driver()->first()->available != 1)
+                                @csrf
+                            @endif
 
                             <div class="flex items-center gap-2">
                                 <div class="flex flex-col items-center p-2">
@@ -19,21 +21,11 @@
                                                 $city->ville = preg_replace('/[^A-Za-z0-9 \-]/', '', $city->ville);
                                                 $id = strtolower(str_replace(' ', '-', $city->ville));
                                             @endphp
-                                            <option value="{{ $city->ville }}" id="{{ $id }}" {{ $currentRoute ? ($city->ville == $currentRoute->departure ? 'selected' : '') :  ''}}>{{ ucwords($city->ville) }}</option>
+                                            <option value="{{ $city->ville }}" id="{{ $id }}" {{ $currentRoute ? ($city->ville == $currentRoute->departure ? 'selected' : '') :  ''}} {{ auth()->user()->driver()->first()->available != 1 ? 'disabled' : '' }}>{{ ucwords($city->ville) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class=" w-64 flex items-center">
-                                    <div class="relative">
-                                        <span class="inline-block w-2 h-2 rounded-full bg-black"></span>
-                                        <p class="absolute top-0 left-0 text-xs rotate-[-60deg] translate-x-[-15%] translate-y-[-200%] bg-black rounded text-white p-2">Departure</p>
-                                    </div>
-                                    <span class="inline-block border-b-2 border-black border-dashed w-full"></span>
-                                    <div class="relative">
-                                        <span class="inline-block w-2 h-2 rounded-full bg-black"></span>
-                                        <p class="absolute top-0 left-0 text-xs rotate-[-60deg] translate-x-[-15%] translate-y-[-200%] bg-black rounded text-white p-2">Destination</p>
-                                    </div>
-                                </div>
+                                <x-dashboard.route-line />
                                 <div class="flex flex-col items-center m-4">
                                     <img width="150px" src="{{ asset('/images/ship.png') }}" alt="">
                                     <select name="destination" id="destination" class="m-2 p-2 rounded w-48 text-sm">
@@ -43,22 +35,27 @@
                                                 $id = strtolower(str_replace(' ', '-', $city->ville));
                                             @endphp
                                             @if ($loop->first)
-                                                <option value="{{ $city->ville }}" id="{{ $id }}" class="hidden" {{ $currentRoute ? ($city->ville == $currentRoute->destination ? 'selected' : '') : ''}}>{{ ucwords($city->ville) }}</option>
+                                                <option value="{{ $city->ville }}" id="{{ $id }}" {{ $currentRoute ? ($city->ville == $currentRoute->destination ? 'selected' : 'class=hidden') : 'class=hidden'}} {{ auth()->user()->driver()->first()->available != 1 ? 'disabled' : '' }}>{{ ucwords($city->ville) }}</option>
                                             @elseif ($loop->iteration == 2)
-                                                <option value="{{ $city->ville }}" id="{{ $id }}" {{ $currentRoute ? ($city->ville == $currentRoute->destination ? 'selected' : '') : 'selected' }}>{{ ucwords($city->ville) }}</option>
+                                                <option value="{{ $city->ville }}" id="{{ $id }}" {{ $currentRoute ? ($city->ville == $currentRoute->destination ? 'selected' : '') : 'selected' }} {{ auth()->user()->driver()->first()->available != 1 ? 'disabled' : '' }}>{{ ucwords($city->ville) }}</option>
                                             @else
-                                                <option value="{{ $city->ville }}" id="{{ $id }}" {{ $currentRoute ? ($city->ville == $currentRoute->destination ? 'selected' : '') : '' }}>{{ ucwords($city->ville) }}</option>
+                                                <option value="{{ $city->ville }}" id="{{ $id }}" {{ $currentRoute ? ($city->ville == $currentRoute->destination ? 'selected' : '') : '' }} {{ auth()->user()->driver()->first()->available != 1 ? 'disabled' : '' }}>{{ ucwords($city->ville) }}</option>
                                             @endif
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <button type="submit" class="absolute left-[50%] bottom-0 bg-black py-2 px-4 rounded-lg text-white translate-x-[-50%] translate-y-[100%]">{{ $currentRoute ? 'Change' : 'Select' }}</button>
+
+                            <x-dashboard.date-input value="{{ Carbon\Carbon::parse($currentRoute->pivot->date)->timezone('Africa/Casablanca')->format('Y-m-d\Th:i:s') ?? now()->timezone('Africa/Casablanca')->format('Y-m-d\Th:i:s') }}"/>
+
+                            @if(auth()->user()->driver()->first()->available == 1)
+                                <button type="submit" class="absolute left-[50%] bottom-0 bg-black py-2 px-4 rounded-lg text-white translate-x-[-50%] translate-y-[100%]">{{ $currentRoute ? 'Change' : 'Select' }}</button>
+                            @endif
                         </form>
                     </div>
                 </div>
 
-                <div class="pb-8 pr-12 w-full">
+                <div class="pb-8 pr-12 w-[35%]">
                     <div class="bg-white border-black border-4 border-dashed rounded-xl font-black text-xl">
                         <h1 class="font-black text-white text-xl bg-black p-4 text-center">Route History</h1>
                         @if (!$routes->isEmpty())
@@ -73,24 +70,14 @@
                                             <img width="150px" src="{{ asset('/images/ship.png') }}" alt="">
                                             <p class="text-xs text-center"> {{ $route->departure }} </p>
                                         </div>
-                                        <div class="w-full flex items-center">
-                                            <div class="relative">
-                                                <span class="inline-block w-2 h-2 rounded-full bg-black"></span>
-                                                <p class="absolute top-0 left-0 text-xs rotate-[-60deg] translate-x-[-15%] translate-y-[-200%] bg-black rounded text-white p-2">Departure</p>
-                                            </div>
-                                            <span class="inline-block border-b-2 border-black border-dashed w-full"></span>
-                                            <div class="relative">
-                                                <span class="inline-block w-2 h-2 rounded-full bg-black"></span>
-                                                <p class="absolute top-0 left-0 text-xs rotate-[-60deg] translate-x-[-15%] translate-y-[-200%] bg-black rounded text-white p-2">Destination</p>
-                                            </div>
-                                        </div>
+                                        <x-dashboard.route-line />
                                         <div class="flex flex-col items-center m-2">
                                             <img width="150px" src="{{ asset('/images/ship.png') }}" alt="">
                                             <p class="text-xs text-center"> {{ $route->destination }} </p>
                                         </div>
                                     </div>
-                                    <button type="submit" class="w-full h-full absolute left-0 top-0 rounded-lg">
-                                        <span class="text-6xl text-white bg-black py-4 px-8 rounded-lg">{{ $loop->iteration }}</span>
+                                    <button type="submit" class="w-full h-full absolute left-0 top-0 translate-y-[7%] rounded-lg">
+                                        <span class="text-4xl text-white bg-black py-4 px-8 rounded-lg">{{ $loop->iteration }}</span>
                                     </button>
                                 </form>
                             @endforeach

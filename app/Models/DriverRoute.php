@@ -12,6 +12,14 @@ class DriverRoute extends Pivot
     public $incrementing = true;
 
     public function reservations() {
-        return $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class, 'route_id', 'id');
+    }
+
+    public function driver() {
+        return $this->belongsTo(Driver::class);
+    }
+
+    public function route() {
+        return $this->belongsTo(Route::class);
     }
 }

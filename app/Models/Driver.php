@@ -17,11 +17,11 @@ class Driver extends User
     protected $guarded = [];
 
     public function routes() {
-        return $this->belongsToMany(Route::class)->using(DriverRoute::class)->withPivot(['id', 'selected'])->withTimestamps();
+        return $this->belongsToMany(Route::class)->using(DriverRoute::class)->withPivot(['id', 'selected', 'date'])->withTimestamps();
     }
 
     public function currentRoute() {
-        return $this->belongsToMany(Route::class)->using(DriverRoute::class)->withPivot(['id', 'selected'])->wherePivot('selected', '1')->withTimestamps();
+        return $this->belongsToMany(Route::class)->using(DriverRoute::class)->withPivot(['id', 'selected', 'date'])->wherePivot('selected', '1')->withTimestamps();
     }
 
     public function scopeFilter($query, array $filters){
