@@ -50,13 +50,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected $appends = [
-        'role'
-    ];
-
-    public function setRoleAttribute($role){
-        return $this->role = $role;
-    }
+    // protected $appends = [
+    //     'role'
+    // ];
 
     public function setPasswordAttribute($password){
         return $this->attributes['password'] = bcrypt($password);

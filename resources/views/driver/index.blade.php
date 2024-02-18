@@ -46,7 +46,7 @@
                                 </div>
                             </div>
 
-                            <x-dashboard.date-input role="driver" value="{{ Carbon\Carbon::parse($currentRoute->pivot->date)->timezone('Africa/Casablanca')->format('Y-m-d\Th:i') ?? now()->timezone('Africa/Casablanca')->format('Y-m-d\Th:i') }}"/>
+                            <x-dashboard.date-input role="driver" value="{{ $currentRoute ? (Carbon\Carbon::parse($currentRoute->pivot->date)->timezone('Africa/Casablanca')->format('Y-m-d\Th:i') ?? now()->timezone('Africa/Casablanca')->format('Y-m-d\Th:i')) : now()->timezone('Africa/Casablanca')->format('Y-m-d\Th:i') }}"/>
 
                             @if(auth()->user()->driver()->first()->available == 1)
                                 <button type="submit" class="absolute left-[50%] bottom-0 bg-black py-2 px-4 rounded-lg text-white translate-x-[-50%] translate-y-[100%]">{{ $currentRoute ? 'Change' : 'Select' }}</button>

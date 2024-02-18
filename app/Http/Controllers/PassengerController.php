@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Models\Driver;
 use Illuminate\Support\Carbon;
@@ -41,9 +42,26 @@ class PassengerController extends Controller
                 ],
                 'review'
             ])->where('passenger_id', auth()->user()->passenger()->first()->id)
+                ->where('date', '>=', now()->timezone('Africa/Casablanca')->toDateTimeString())
                 ->doesntHave('review')
                 ->latest()
                 ->first(),
+
+            'favorites' => Reservation::with([
+                'route' => [
+                    'driver',
+                    'route'
+                ],
+                'review'
+            ])->where('favorited', '1')
+                ->latest()
+                ->distinct()
+                ->get(),
+
+            'ratings' => Driver::join('driver_route', 'driver_route.driver_id', 'drivers.id')
+                                ->join('reservations', 'reservations.route_id', 'driver_route.id')
+                                ->join('reviews', 'reviews.reservation_id', 'reservations.id')
+                                ->get(),
 
             'cities' => json_decode(file_get_contents('https://raw.githubusercontent.com/alaouy/sql-moroccan-cities/master/json/ville.json'))
         ]);
@@ -51,6 +69,30 @@ class PassengerController extends Controller
 
     public function reservations() {
         return view('/passenger/reservations', [
+            'reservations' => Reservation::with([
+                'route' => [
+                    'driver',
+                    'route'
+                ]
+            ])->where('passenger_id', auth()->user()->passenger()->first()->id)
+                ->latest()
+                ->paginate(5),
+
+            'favorites' => Reservation::with([
+                'route' => [
+                    'driver',
+                    'route'
+                ],
+                'review'
+            ])->where('favorited', '1')
+                ->latest()
+                ->distinct()
+                ->get(),
+        ]);
+    }
+
+    public function routes() {
+        return view('/passenger/routes', [
             'reservations' => Reservation::with([
                 'route' => [
                     'driver',

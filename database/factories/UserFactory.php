@@ -26,8 +26,7 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            // 'password' => bcrypt('password'),
-            'password' => '$2y$10$20SptXpebiPkWC.M68wpNu9WloK2XK0fD3B9SDFVJPNeFDTCWjwrW',
+            'password' => Hash::make('password'),
             'picture' => 'uploads/author.jpg'
         ];
     }

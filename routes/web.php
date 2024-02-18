@@ -5,6 +5,7 @@ use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\RouteController;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +37,13 @@ Route::get('/logout', [SessionController::class, 'destroy'])->middleware('auth')
 Route::middleware(['can:passenger'])->group(function () {
     Route::get('/passenger/dashboard', [PassengerController::class, 'index']);
     Route::get('/passenger/reservations', [PassengerController::class, 'reservations']);
+    Route::get('/passenger/routes', [PassengerController::class, 'routes']);
 
     Route::post('/reservation/add', [ReservationController::class, 'store']);
+    Route::patch('/reservation/{reservation}/update', [ReservationController::class, 'update']);
+    Route::delete('/reservation/{reservation}/delete', [ReservationController::class, 'destroy']);
+
+    Route::post('/review/add', [ReviewController::class, 'store']);
 });
 
 Route::middleware(['can:driver'])->group(function () {

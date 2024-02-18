@@ -18,7 +18,7 @@ class RouteController extends Controller
         ]);
 
         $date = $request->validate([
-            'date' => 'required|date|before:' . now()->addMonth()->toDateTimeString() . '|after:' . now()->toDateTimeString()
+            'date' => 'required|date|before:' . now()->timezone('Africa/Casablanca')->addMonth()->toDateTimeString() . '|after:' . now()->timezone('Africa/Casablanca')->toDateTimeString()
         ]);
 
         $route = Route::where('departure', $attributes['departure'])->where('destination', $attributes['destination'])->first();
