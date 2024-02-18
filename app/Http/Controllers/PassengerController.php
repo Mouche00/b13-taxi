@@ -31,7 +31,8 @@ class PassengerController extends Controller
                     'route'
                 ]
             ])->where('passenger_id', auth()->user()->passenger()->first()->id)
-                ->get(),
+                ->latest()
+                ->paginate(5),
 
             'currentReservation' => Reservation::with([
                 'route' => [
@@ -40,9 +41,24 @@ class PassengerController extends Controller
                 ],
                 'review'
             ])->where('passenger_id', auth()->user()->passenger()->first()->id)
-                ->where(''),
+                ->doesntHave('review')
+                ->latest()
+                ->first(),
 
             'cities' => json_decode(file_get_contents('https://raw.githubusercontent.com/alaouy/sql-moroccan-cities/master/json/ville.json'))
+        ]);
+    }
+
+    public function reservations() {
+        return view('/passenger/reservations', [
+            'reservations' => Reservation::with([
+                'route' => [
+                    'driver',
+                    'route'
+                ]
+            ])->where('passenger_id', auth()->user()->passenger()->first()->id)
+                ->latest()
+                ->paginate(5)
         ]);
     }
 }

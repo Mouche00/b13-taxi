@@ -22,19 +22,31 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index']);
 
-Route::get('/register', [RegisterController::class, 'create'])->middleware('guest');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/register', [RegisterController::class, 'create']);
+    Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/login', [SessionController::class, 'create'])->middleware('guest')->name('login');
-Route::post('/login', [SessionController::class, 'store'])->middleware('guest');
+    Route::get('/login', [SessionController::class, 'create'])->name('login');
+    Route::post('/login', [SessionController::class, 'store']);
+});
+
 
 Route::get('/logout', [SessionController::class, 'destroy'])->middleware('auth');
 
-Route::get('/driver/dashboard', [DriverController::class, 'index'])->middleware('can:driver');
-Route::get('/passenger/dashboard', [PassengerController::class, 'index'])->middleware('can:passenger');
+Route::middleware(['can:passenger'])->group(function () {
+    Route::get('/passenger/dashboard', [PassengerController::class, 'index']);
+    Route::get('/passenger/reservations', [PassengerController::class, 'reservations']);
 
-Route::post('route/add', [RouteController::class, 'store'])->middleware('can:driver');
-Route::post('/reservation/add', [ReservationController::class, 'store'])->middleware('can:passenger');
+    Route::post('/reservation/add', [ReservationController::class, 'store']);
+});
+
+Route::middleware(['can:driver'])->group(function () {
+    Route::get('/driver/dashboard', [DriverController::class, 'index']);
+    Route::get('/driver/routes', [DriverController::class, 'routes']);
+    Route::get('/driver/reservations', [DriverController::class, 'reservations']);
+
+    Route::post('route/add', [RouteController::class, 'store']);
+});
 
 //Route::get('/admin', [AdminController::class], 'index')->middleware('can:admin');
 //Route::get('/driver', [DriverController::class], 'index')->middleware('can:driver');

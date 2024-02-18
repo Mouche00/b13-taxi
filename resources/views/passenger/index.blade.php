@@ -45,7 +45,7 @@
                                 </div>
 
 
-                                <x-dashboard.date-input />
+                                <x-dashboard.date-input role="passenger" />
 
                                 <button type="submit" class="absolute left-[50%] bottom-0 bg-black py-2 px-4 rounded-lg text-white translate-x-[-50%] translate-y-[100%]">Search</button>
                             </form>
