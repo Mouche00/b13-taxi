@@ -1,17 +1,17 @@
-<x-layout class="bg-[url('{{ asset('/images/parchment.jpg') }}')] bg-cover bg-norepeat">
+<x-layout class="bg-[url('{{ asset('/images/parchment.jpg') }}')] bg-contain md:bg-cover bg-norepeat">
     <x-dashboard.navbar role="passenger" />
     <div class="flex">
-        <x-dashboard.sidebar role="passenger" />
+        <x-dashboard.sidebar class="ml-12" role="passenger" />
 
         <main class="relative w-full">
-            <div class="pb-8 pr-12 my-3 ml-2">
+            <div class="pb-8 md:px-12 lg:pr-12 my-3 ml-2">
                 <div class="bg-white border-black border-4 border-dashed rounded-xl font-black text-xl">
                     <h1 class="font-black text-white text-xl bg-black p-4 text-center">Reservations</h1>
                     @if (!$reservations->isEmpty())
                         @foreach ($reservations as $reservation)
-                            <div class="relative border-2 border-dashed border-black m-4 rounded-lg flex items-center mb-32">
+                            <div class="relative border-2 border-dashed border-black m-4 rounded-lg flex flex-col md:flex-row items-center mb-32">
                                 @if(!$reservation->favorited && $favorites->map(fn($item) => $item->route)->map(fn($item) => $item->route)->where('departure', $reservation->route->route->departure)->where('destination', $reservation->route->route->destination)->isEmpty())
-                                    <div class="relative flex text-white h-64 w-32 items-center justify-between border-r-2 border-dashed border-black bg-[url('http://127.0.0.1:8003/images/parchment.jpg')] bg-cover">
+                                    <div class="relative flex text-white h-32 md:h-[400px] lg:h-64 w-32 items-center justify-between border-r-2 border-dashed border-black rotate-90 md:rotate-0 md:bg-[url('http://127.0.0.1:8003/images/parchment.jpg')] bg-cover">
                                         <form method="POST" action="/reservation/{{ $reservation->id }}/update" class="m-0 flex justify-center items-center absolute top-0 left-[50%] translate-x-[-50%] h-full">
                                             @csrf
                                             @method('PATCH')
@@ -24,7 +24,7 @@
                                     </div>
                                 @endif
 
-                                <div class="flex items-center gap-2 p-4 pt-12 w-full">
+                                <div class="flex items-center gap-2 p-4 pt-12 w-full flex-col md:flex-row">
                                     <div class="flex flex-col items-center p-2">
                                         <img width="150px" src="{{ asset('/images/castle.png') }}" alt="">
                                         <p class="text-xs text-center"> {{ $reservation->route->route->departure }} </p>
@@ -36,9 +36,9 @@
                                     </div>
                                 </div>
                                 
-                                @if (now()->timezone('Africa/Casablanca')->addHour()->toDateTimeString() < Carbon\Carbon::parse($reservation->route->date)->toDateTimeString())
-                                    <div class="relative flex text-white h-64 w-16 items-center justify-between">
-                                        <form method="POST" action="/reservation/{{ $reservation->id }}/delete" class="m-0 flex justify-center items-center absolute top-0 right-0 h-full border-l-2 border-dashed border-black">
+                                @if (now()->timezone('Africa/Casablanca')->addHour()->format('Y-m-d\Th:i') < Carbon\Carbon::parse($reservation->route->date)->toDateTimeString())
+                                    <div class="relative flex text-white md:h-[400px] lg:h-64 w-16 items-center justify-between rotate-90 md:rotate-0">
+                                        <form method="POST" action="/reservation/{{ $reservation->id }}/delete" class="m-0 flex justify-center items-center absolute top-0 right-0 h-full md:border-l-2 border-dashed border-black">
                                             @csrf
                                             @method('DELETE')
 
@@ -77,14 +77,15 @@
                                     </div> 
                                 @endif
 
-                                <div class="absolute flex flex-col items-center justify-center bg-white rounded-lg border-2 border-black border-dashed left-[33%] translate-x-[-50%] p-4 space-y-8 top-[50%] translate-y-[-50%]">
+                                <div class="hidden lg:block absolute flex flex-col items-center justify-center bg-white rounded-lg border-2 border-black border-dashed left-[33%] translate-x-[-50%] p-4 space-y-8 top-[50%] translate-y-[-50%]">
                                     <img width="75px" src="{{ asset('/images/clock.png') }}" alt="" class="absolute top-0 left-[50%] translate-x-[-50%] translate-y-[-50%]">
                                     <p class="text-sm border-black p-2 rounded mt-8 min-w-32 text-center">{{ $reservation->route->date }}</p>
                                 </div>
 
-                                <div class="absolute flex flex-col items-center justify-center bg-white rounded-lg border-2 border-black border-dashed left-[66%] translate-x-[-50%] p-4 space-y-8 top-[50%] translate-y-[-50%]">
+                                <div class="absolute flex flex-col items-center justify-center bg-white rounded-lg border-2 border-black border-dashed left-[50%] lg:left-[66%] translate-x-[-50%] p-4 space-y-4 lg:space-y-8 top-[50%] translate-y-[-50%]">
                                     <img width="100px" src="{{ asset('/images/ship.png') }}" alt="" class="absolute bg-white top-0 left-[50%] translate-x-[-50%] translate-y-[-50%]">
                                     <p class="text-sm border-black p-2 rounded mt-8 min-w-32 text-center">{{ $reservation->route->driver->user()->first()->name }}</p>
+                                    <p class="text-sm lg:hidden border-black p-2 rounded min-w-32 text-center">{{ $reservation->route->date }}</p>
                                 </div>
                             </div>
                         @endforeach

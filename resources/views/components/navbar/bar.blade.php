@@ -7,11 +7,11 @@
             </div>
 
 
-            <ul class="flex space-x-8">
+            <!-- <ul class="flex space-x-8">
                 <x-navbar.list-item link="#" name="home" />
                 <x-navbar.list-item link="#" name="routes" />
                 <x-navbar.list-item link="#" name="about" />
-            </ul>
+            </ul> -->
 
             <div>
                 <x-navbar.link class="bg-black rounded-lg border-4 border-black text-white" href="/login" name="login" />

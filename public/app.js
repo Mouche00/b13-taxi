@@ -1,13 +1,4 @@
-const registerSwitch = document.querySelector('#register-switch');
-const passengerForm = document.querySelector('#passenger-form');
-const driverForm = document.querySelector('#driver-form');
 
-if(registerSwitch !== null) {
-    registerSwitch.addEventListener('click', () => {
-        passengerForm.classList.toggle('hidden');
-        driverForm.classList.toggle('hidden');
-    })
-}
 
 // profile
 
@@ -44,5 +35,40 @@ if(departure !== null || destination !== null) {
         prevOptionDes = destination.value.replaceAll(' ', '-').toLowerCase();
         console.log(prevOptionDes);
         departure.querySelector(`#${prevOptionDes}`).classList.add('hidden');
+    })
+}
+
+// register
+
+const pictureWrapper = document.querySelector('#picture-wrapper');
+
+if(pictureWrapper !== null){
+    pictureWrapper.classList.add('border-white');
+}
+
+const passengerSwitch = document.querySelector('#passenger-switch');
+const driverSwitch = document.querySelector('#driver-switch');
+const passengerFormWrapper = document.querySelector('#passenger-form-wrapper');
+const driverFormWrapper = document.querySelector('#driver-form-wrapper');
+const registerBackground = document.querySelector('#register-background');
+
+
+if(driverSwitch !== null) {
+    driverSwitch.addEventListener('click', () => {
+        passengerFormWrapper.classList.toggle('translate-x-[-100%]');
+        driverFormWrapper.classList.toggle('translate-x-[100%]');
+        registerBackground.classList.toggle('bg-white');
+        passengerSwitch.classList.toggle('bg-white');
+        driverSwitch.classList.toggle('bg-white');
+    })
+}
+
+if(passengerSwitch !== null) {
+    passengerSwitch.addEventListener('click', () => {
+        passengerFormWrapper.classList.toggle('translate-x-[-100%]');
+        driverFormWrapper.classList.toggle('translate-x-[100%]');
+        registerBackground.classList.toggle('bg-white');
+        passengerSwitch.classList.toggle('bg-white');
+        driverSwitch.classList.toggle('bg-white');
     })
 }

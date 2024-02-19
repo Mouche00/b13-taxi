@@ -3,7 +3,7 @@
     <div class="flex">
         <x-dashboard.sidebar role="passenger" />
 
-        <div class="pb-8 pr-12 mx-2 w-[50%]">
+        <div class="pb-8 pr-12 mx-2 w-[70%] lg:w-[50%] md:ml-12">
             <div class="bg-white border-black border-4 border-dashed rounded-xl font-black text-xl">
                 <h1 class="font-black text-white text-xl bg-black p-4 text-center">Route History</h1>
                 @if (!$reservations->isEmpty())
@@ -14,7 +14,7 @@
                             <input type="hidden" name="destination" id="destination" value="{{ $reservation->route->route->destination }}">
                             <input type="hidden" name="date" id="date" value="{{ $reservation->route->date }}">
 
-                            <div class="flex items-center gap-2">
+                            <div class="flex flex-col md:flex-row items-center gap-2">
                                 <div class="flex flex-col items-center p-2">
                                     <img width="150px" src="{{ asset('/images/castle.png') }}" alt="">
                                     <p class="text-xs text-center"> {{ $reservation->route->route->departure }} </p>

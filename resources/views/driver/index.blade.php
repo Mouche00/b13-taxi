@@ -3,8 +3,8 @@
         <div class="flex">
             <x-dashboard.sidebar role="driver" />
 
-            <main class="relative flex w-full">
-                <div class="pb-8 pr-12 w-[65%]">
+            <main class="relative flex flex-col md:pl-12 lg:pl-0 lg:flex-row w-full">
+                <div class="pb-8 pr-12 md:w-full lg:w-[65%] mx-auto md:mx-0">
                     <div class="bg-white border-black border-4 border-dashed rounded-xl font-black text-xl">
                         <h1 class="font-black text-white text-xl bg-black p-4 text-center">Selected Route</h1>
                         <form action="/route/add" method="POST" class="p-4 pt-8 relative">
@@ -12,7 +12,7 @@
                                 @csrf
                             @endif
 
-                            <div class="flex items-center gap-2">
+                            <div class="flex flex-col md:flex-row items-center gap-2">
                                 <div class="flex flex-col items-center p-2">
                                     <img width="150px" src="{{ asset('/images/ship.png') }}" alt="">
                                     <select name="departure" id="departure" class="m-2 p-2 rounded w-48  text-sm">
@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <div class="pb-8 pr-12 w-[35%]">
+                <div class="pb-8 md:pr-12 w-[70%] lg:w-[35%] mx-auto md:mx-0">
                     <div class="bg-white border-black border-4 border-dashed rounded-xl font-black text-xl">
                         <h1 class="font-black text-white text-xl bg-black p-4 text-center">Route History</h1>
                         @if (!$routes->isEmpty())
@@ -66,7 +66,7 @@
                                     <input type="hidden" name="departure" id="departure" value="{{ $route->departure }}" class="text-xs text-center">
                                     <input type="hidden" name="destination" id="destination" value="{{ $route->destination }}" class="text-xs text-center">
                                     <input type="hidden" name="date" id="date" value="{{ now()->timezone('Africa/Casablanca')->addHours(2)->format('Y-m-d\Th:i') }}" class="text-xs text-center">
-                                    <div class="flex items-center gap-2">
+                                    <div class="flex flex-col md:flex-row items-center gap-2">
                                         <div class="flex flex-col items-center m-2">
                                             <img width="150px" src="{{ asset('/images/ship.png') }}" alt="">
                                             <p class="text-xs text-center"> {{ $route->departure }} </p>

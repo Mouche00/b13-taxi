@@ -42,9 +42,9 @@ class PassengerController extends Controller
                 ],
                 'review'
             ])->where('passenger_id', auth()->user()->passenger()->first()->id)
-                ->where('date', '>=', now()->timezone('Africa/Casablanca')->toDateTimeString())
+                ->where('date', '<=', now()->timezone('Africa/Casablanca')->toDateTimeString())
                 ->doesntHave('review')
-                ->latest()
+                ->orderBy('date', 'DESC')
                 ->first(),
 
             'favorites' => Reservation::with([

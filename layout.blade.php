@@ -1,10 +1,60 @@
-<footer class="bg-white">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{--    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">--}}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/1a53866afa.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/app.css">
+    <title>Ghibli Recipes</title>
+</head>
+
+<body class="">
+    <nav id="navbar" class="bg-white border-gray-200 fixed w-full z-50">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="/images/logo-black.jpg" class="h-8" alt="Logo" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap">Ghibli Recipes</span>
+        </a>
+        <div class="flex md:hidden">
+            <button id="navbar-mobile-button" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-search" aria-expanded="false">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                </svg>
+            </button>
+        </div>
+        <div class="items-center justify-between hidden w-full md:flex md:w-auto" id="navbar-mobile">
+            <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
+                <li>
+                    <a href="/" class="block py-2 px-3 bg-white rounded md:bg-white text-gray-900 md:p-0" aria-current="page">Home</a>
+                </li>
+                <li>
+                    <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-white md:hover:text-blue-700 md:p-0">Recipes</a>
+                </li>
+                <li>
+                    <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-white md:hover:text-blue-700 md:p-0">About</a>
+                </li>
+                <li>
+                    <a href="/recipes/create" class="px-4 py-2 bg-amber-700 rounded-lg text-white flex md:hidden">Add Recipe</a>
+                </li>
+            </ul>
+        </div>
+        <a href="/recipes/create" class="px-4 py-2 bg-amber-700 rounded-lg text-white hidden md:flex">Add Recipe</a>
+    </div>
+</nav>
+
+    <main {{ $attributes->merge(['class' => 'pt-16']) }}>
+        {{ $slot }}
+    </main>
+
+    <footer class="bg-white">
         <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0">
                     <a href="#" class="flex items-center space-x-3">
-                        <img src="{{ asset('images/logo-wheel.png') }}" class="h-8 me-3" alt="FlowBite Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap">Caravans</span>
+                        <img src="/images/logo-black.jpg" class="h-8 me-3" alt="FlowBite Logo" />
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap">Ghibli Recipes</span>
                     </a>
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -45,7 +95,7 @@
             </div>
             <hr class="my-6 border-gray-200 sm:mx-auto lg:my-8" />
             <div class="sm:flex sm:items-center sm:justify-between">
-          <span class="text-sm text-gray-500 sm:text-center">© 2023 <a href="https://flowbite.com/" class="hover:underline">Caravans</a>. All Rights Reserved.
+          <span class="text-sm text-gray-500 sm:text-center">© 2023 <a href="https://flowbite.com/" class="hover:underline">Ghibli Recipes</a>. All Rights Reserved.
           </span>
                 <div class="flex mt-4 sm:justify-center sm:mt-0">
                     <a href="#" class="text-gray-500 hover:text-gray-900">
@@ -82,3 +132,7 @@
             </div>
         </div>
     </footer>
+
+    <script type="text/javascript" src="{{asset('js/main.js') }}"></script>
+</body>
+</html>

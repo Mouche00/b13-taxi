@@ -1,8 +1,8 @@
-@props(['name'])
+@props(['name', 'auxname'])
 
 <div class="flex justify-between items-center my-4 space-y-2 space-x-4">
     @if($name !== 'role')
-        <x-form.label name="{{ $name }}"/>
+        <x-form.label name="{{ $auxname ?? $name }}"/>
     @endif
 
     <input  class="border-2 border-black p-2 md:mx-4 rounded"
